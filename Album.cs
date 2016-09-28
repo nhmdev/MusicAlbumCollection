@@ -5,7 +5,7 @@ namespace MusicAlbumCollection
 	{
 		string name;
 		int releaseYear;
-		Artist artist;
+		string artist;
 
 		public string Name
 		{
@@ -36,13 +36,21 @@ namespace MusicAlbumCollection
 			}
 		}
 
-		public Artist Artist
+		public string Artist
 		{
 			get { return artist; }
-			set { artist = value;}
+			set 
+				{ 
+					if(value == "")
+					{
+						artist = "Unknown";
+					} else {
+						artist = value;
+					}
+				}
 		}
 
-		public Album(Artist artistName, string albumName, int releaseYear)
+		public Album(string artistName, string albumName, int releaseYear)
 		{
 			Artist = artistName;
 			Name = albumName;
@@ -57,8 +65,8 @@ namespace MusicAlbumCollection
 			retString += "Album Info";
 			for (int i = 0; i < 5; i++) { retString += " *"; }
 			retString += Environment.NewLine;
-			retString += " Artist: " + Artist.Name + Environment.NewLine;
-			retString += " Album:  " + name + Environment.NewLine;
+			retString += " Artist: " + Artist + Environment.NewLine;
+			retString += " Album:  " + Name + Environment.NewLine;
 			if (ReleaseYear == -1)
 			{
 				retString += " Year:   Unknown";
