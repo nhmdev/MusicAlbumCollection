@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+//using System.Collections.Generic;
 
 namespace MusicAlbumCollection
 {
@@ -7,7 +7,9 @@ namespace MusicAlbumCollection
 	{
 		public static void Main(string[] args)
 		{
-			List<Album> albums = new List<Album>();
+			//List<Album> albums = new List<Album>();
+			Collection albumCollection = new Collection("My Album Collection");
+
 			bool runMenu = true;
 			while (runMenu)
 			{
@@ -22,10 +24,10 @@ namespace MusicAlbumCollection
 						Console.Clear();
 						Console.WriteLine("Listing all albums in memory");
 						Console.WriteLine("****************************");
-						foreach (Album album in albums)
-						{
-							Console.WriteLine(album.GetAlbumInfo());
+						foreach(string albuminfo in albumCollection.GetAlbumsInfo()){
+							Console.WriteLine(albuminfo);
 						}
+						//Console.WriteLine(albumCollection.GetAlbumsInfo());
 						Console.WriteLine("****************************");
 						break;
 					case 2:
@@ -33,12 +35,20 @@ namespace MusicAlbumCollection
 						Console.Clear();
 						Console.WriteLine("Adding new album to memory");
 						Console.WriteLine("**************************");
-						albums.Add(CreateAlbum());
+						albumCollection.AddAlbum(CreateAlbum());
 						Console.WriteLine("**************************");
 						Console.WriteLine();
 						break;
+					case 3:
+						// Edit album
+						Console.Clear();
+						Console.WriteLine("Editing existing album in memory");
+						Console.WriteLine("********************************");
+						EditAlbum(albumCollection);
+						Console.WriteLine("********************************");
+						Console.WriteLine();
+						break;
 				}
-
 			}
 			 
 			/*
@@ -117,6 +127,68 @@ namespace MusicAlbumCollection
 
 			// Create and return Album object
 			return new Album(artist, album, yearAsInt);
+		}
+
+		public static Album GetAlbum(Collection albumCollection){
+			Console.Write("Enter id of the album: ");
+			string input = Console.ReadLine();
+			int inputAsInt;
+			while(!(int.TryParse(input, out inputAsInt)))
+			{
+				Console.WriteLine("You did not choose a number. Try again");
+				Console.Write("Enter id of the album: ");
+				input = Console.ReadLine();
+			}
+			if(albumCollection.CheckAlbumIdExists(inputAsInt)){
+				 return albumCollection.GetAlbum(inputAsInt);
+			} else {
+				Console.WriteLine("Album with that id does not exist. Returning empty album.");
+				return new Album("","",0);
+			}
+
+		}
+
+		public static bool EditAlbum(Collection albumCollection) {
+			Console.Write("Enter id of the album: ");
+			string input = Console.ReadLine();
+			int inputAsInt;
+			while (!(int.TryParse(input, out inputAsInt)))
+			{
+				Console.WriteLine("You did not choose a number. Try again");
+				Console.Write("Enter id of the album: ");
+				input = Console.ReadLine();
+			}
+			if(albumCollection.CheckAlbumIdExists(inputAsInt)){
+				Album existingAlbum = albumCollection.GetAlbum(inputAsInt);
+
+				Console.Write("Artist ( " + existingAlbum.Artist + " ): ");
+				string newArtist = Console.ReadLine();
+				if (newArtist == "") newArtist = existingAlbum.Artist;
+				Console.Write("Album ( " + existingAlbum.Name + " ): ");
+				string newAlbum = Console.ReadLine();
+				if (newAlbum == "") newAlbum = existingAlbum.Name;
+				Console.Write("Year ( " + existingAlbum.ReleaseYear + " ): ");
+				string newYear = Console.ReadLine();
+				if (newYear == "") newYear = existingAlbum.ReleaseYear.ToString();
+
+				// Try parse input year as a int and save to yearAsInt
+				int newYearAsInt;
+				while (!(int.TryParse(newYear, out newYearAsInt)))
+				{
+					Console.WriteLine("Year is not a number. Try again. Year: ");
+					newYear = Console.ReadLine();
+				}
+
+				if(albumCollection.EditAlbum(inputAsInt, newArtist, newAlbum, newYearAsInt)){
+					return true;
+				} else {
+					Console.WriteLine("Could not save changes.");
+					return false;
+				}
+			} else {
+				Console.WriteLine("Album id does not exist. Nothing changed.");
+				return false;
+			}
 		}
 	}
 }

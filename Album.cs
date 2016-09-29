@@ -3,9 +3,16 @@ namespace MusicAlbumCollection
 {
 	public class Album
 	{
+		int id;
 		string name;
 		int releaseYear;
 		string artist;
+
+		public int Id
+		{
+			get { return id; }
+			set { id = value; }
+		}
 
 		public string Name
 		{
@@ -65,6 +72,7 @@ namespace MusicAlbumCollection
 			retString += "Album Info";
 			for (int i = 0; i < 5; i++) { retString += " *"; }
 			retString += Environment.NewLine;
+			retString += " Id:     " + Id + Environment.NewLine;
 			retString += " Artist: " + Artist + Environment.NewLine;
 			retString += " Album:  " + Name + Environment.NewLine;
 			if (ReleaseYear == -1)
