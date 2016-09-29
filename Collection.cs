@@ -6,7 +6,7 @@ namespace MusicAlbumCollection
 	{
 		string name;
 		List<Album> albums = new List<Album>();
-		int idIndex = 0;
+		int idIndex = 1;
 
 		public string Name
 		{
@@ -90,8 +90,23 @@ namespace MusicAlbumCollection
 			return albums.FindIndex(c => c.Id == id);
 		}
 
+		public bool SaveToFile(string filename){
+			FileIO file = new FileIO(filename);
+			file.Save(albums);
+			return true;
+		}
 
+		public bool LoadFromFile(string filename){
+			FileIO file = new FileIO(filename);
+			if(file.CountAlbumsInFile() > 0){
+				albums = file.Load();
+				idIndex = albums.Count + 1;
+				return true;
+			} else {
+				return false;
+			}
 
+		}
 
 
 

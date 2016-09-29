@@ -58,6 +58,35 @@ namespace MusicAlbumCollection
 						Console.WriteLine("*******************************");
 						Console.WriteLine();
 						break;
+
+					case 5:
+						// Load album
+						Console.Clear();
+						Console.WriteLine("Loading existing albums from file");
+						Console.WriteLine("*********************************");
+						Console.Write("Filename to load (Without extension): ");
+						string loadFilename = Console.ReadLine();
+						if(albumCollection.LoadFromFile(loadFilename)){
+							Console.WriteLine("Loaded from file " + loadFilename + ".csv");
+						} else {
+							Console.WriteLine("Could not load any albums");
+						}
+						Console.WriteLine("*********************************");
+						Console.WriteLine();
+						break;
+						
+					case 6:
+						// Save album
+						Console.Clear();
+						Console.WriteLine("Saving existing album to file");
+						Console.WriteLine("*****************************");
+						Console.Write("Choose a filename (without extension): ");
+						string saveFilename = Console.ReadLine();
+						albumCollection.SaveToFile(saveFilename);
+						Console.WriteLine("Saved to file " + saveFilename + ".csv");
+						Console.WriteLine("*****************************");
+						Console.WriteLine();
+						break;
 				}
 			}
 			 

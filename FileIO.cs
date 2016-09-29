@@ -37,6 +37,7 @@ namespace MusicAlbumCollection
 			List<Album> albums = new List<Album>();
 
 			if(File.Exists(fileName)){
+				int id = 1;
 				// Using ReadLines because its more efficient than ReadAllLines when bigger files.
 				foreach (string line in File.ReadLines(fileName))
 				{
@@ -53,7 +54,8 @@ namespace MusicAlbumCollection
 						}
 						// Create Album object
 						Album album = new Album(artistName, albumName, year);
-
+						album.Id = id;
+						id++;
 						// Insert object to list
 						albums.Add(album);
 					}
