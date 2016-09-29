@@ -48,6 +48,16 @@ namespace MusicAlbumCollection
 						Console.WriteLine("********************************");
 						Console.WriteLine();
 						break;
+
+					case 4:
+						// Delete album
+						Console.Clear();
+						Console.WriteLine("Delete existing album in memory");
+						Console.WriteLine("*******************************");
+						DeleteAlbum(albumCollection);
+						Console.WriteLine("*******************************");
+						Console.WriteLine();
+						break;
 				}
 			}
 			 
@@ -187,6 +197,40 @@ namespace MusicAlbumCollection
 				}
 			} else {
 				Console.WriteLine("Album id does not exist. Nothing changed.");
+				return false;
+			}
+		}
+
+		public static bool DeleteAlbum(Collection albumCollection) {
+			Console.Write("Enter id of the album: ");
+			string input = Console.ReadLine();
+			int inputAsInt;
+			while (!(int.TryParse(input, out inputAsInt)))
+			{
+				Console.WriteLine("You did not choose a number. Try again");
+				Console.Write("Enter id of the album: ");
+				input = Console.ReadLine();
+			}
+			if (albumCollection.CheckAlbumIdExists(inputAsInt))
+			{
+				Album album = albumCollection.GetAlbum(inputAsInt);
+				Console.WriteLine(album.GetAlbumInfo());
+				Console.WriteLine("Is this correct album to delete? (Y/N)");
+				string input2 = Console.ReadLine();
+				while(!( (input2.ToUpper() == "Y") || input2.ToUpper() == "N")){
+					Console.WriteLine("Choose Y or N: ");
+					input2 = Console.ReadLine();
+				}
+				if(input2.ToUpper() == "Y"){
+					albumCollection.DeleteAlbum(inputAsInt);
+					Console.WriteLine("Deleted the album");
+					return true;
+				} else {
+					Console.WriteLine("Nothing deleted");
+					return false;
+				}
+			} else {
+				Console.WriteLine("Could not find the album id");
 				return false;
 			}
 		}
